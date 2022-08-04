@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="PTS">
+
+<insert id="insertPT" parameterType="com.one.health.dto.PTSDto">
+	INSERT INTO PTSCHEDULE(SNUM, TID, MID, PTDATE, TIMES)
+	VALUES(SEQ_SNUM.NEXTVAL, #{tid}, #{mid}, #{ptdate}, #{times})
+</insert>
+
+<select id="getTimeList" parameterType="com.one.health.dto.PTSDto" resultType="com.one.health.dto.PTSDto">
+	SELECT SNUM, TID, MID, PTDATE, TIMES
+	FROM PTSCHEDULE
+	WHERE TID=#{tid} AND PTDATE=#{ptdate}
+</select>
+
+<select id="getTime" parameterType="com.one.health.dto.PTSDto" resultType="com.one.health.dto.PTSDto">
+	SELECT SNUM, TID, MID, PTDATE, TIMES
+	FROM PTSCHEDULE
+	WHERE TID=#{tid} AND PTDATE=#{ptdate} AND TIMES=#{times}
+</select>
+
+<select id="getTodayList" parameterType="java.lang.String" resultType="com.one.health.dto.PTSDto">
+	SELECT SNUM, TID, MID, PTDATE, TIMES
+	FROM PTSCHEDULE
+	WHERE MID=#{mid} AND PTDATE = TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'))
+</select>
+
+<select id="getUpcomingList" parameterType="java.lang.String" resultType="com.one.health.dto.PTSDto">
+	SELECT SNUM, TID, MID, PTDATE, TIMES
+	FROM PTSCHEDULE
+	WHERE MID=#{mid} AND PTDATE > TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'))
+</select>
+
+<select id="getPastList" parameterType="java.lang.String" resultType="com.one.health.dto.PTSDto">
+	SELECT SNUM, TID, MID, PTDATE, TIMES
+	FROM PTSCHEDULE
+	WHERE MID=#{mid} AND TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD')) > PTDATE
+</select>
+</mapper>

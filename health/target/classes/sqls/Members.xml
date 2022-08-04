@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="Members">
+
+<insert id="insertMembers" parameterType="com.one.health.dto.MembersDto">
+	INSERT INTO MEMBERS(MID, NAME, PTPOINT, FLPOINT, RENT, PRICE)
+	VALUES(#{mid}, #{name}, #{ptpoint}, #{flpoint}, #{rent}, #{price})
+</insert>
+
+<select id="getMembers" parameterType="java.lang.String" resultType="com.one.health.dto.MembersDto">
+	SELECT MID, NAME, PTPOINT, FLPOINT, RENT, PRICE
+	FROM MEMBERS
+	WHERE MID=#{mid}
+</select>
+
+<update id="updateMember" parameterType="com.one.health.dto.MembersDto">
+	UPDATE MEMBERS
+	SET NAME=#{name}
+	WHERE MID=#{mid}
+</update>
+
+<update id="updateMembers" parameterType="com.one.health.dto.MembersDto">
+	UPDATE MEMBERS
+	SET PTPOINT = PTPOINT+ #{ptpoint}, FLPOINT= FLPOINT + #{flpoint}, PRICE = PRICE + #{price}
+	WHERE MID =#{mid}
+</update>
+
+<update id="downPt" parameterType="java.lang.String">
+	UPDATE MEMBERS
+	SET PTPOINT = PTPOINT-1
+	WHERE MID =#{mid}
+</update>
+
+<update id="downFl" parameterType="java.lang.String">
+	UPDATE MEMBERS
+	SET FLPOINT= FLPOINT-1
+	WHERE MID =#{mid}
+</update>
+
+</mapper>
